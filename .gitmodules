@@ -1,0 +1,6 @@
+[submodule "ats"]
+	path = ats
+	url = https://github.com/jamezilla/ats
+[submodule "sndlib"]
+	path = sndlib
+	url = git@github.com:ColinGilbert/sndlib.git
