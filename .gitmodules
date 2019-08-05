@@ -3,4 +3,4 @@
 	url = https://github.com/jamezilla/ats
 [submodule "sndlib"]
 	path = sndlib
-	url = git@github.com:ColinGilbert/sndlib.git
+	url = https://github.com:ColinGilbert/sndlib
