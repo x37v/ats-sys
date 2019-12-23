@@ -2,6 +2,7 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    let vars = ["ATSA_CRITICAL_BANDS"];
     let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER"];
 
     let mut builder = bindgen::Builder::default()
@@ -9,7 +10,7 @@ fn main() {
         .clang_arg("-I./sndlib")
         .rustfmt_bindings(true);
 
-    //builder = vars.iter().fold(builder, |b, i| b.whitelist_var(i));
+    builder = vars.iter().fold(builder, |b, i| b.whitelist_var(i));
     //builder = funcs.iter().fold(builder, |b, i| b.whitelist_function(i));
     builder = types.iter().fold(builder, |b, i| b.whitelist_type(i));
 
