@@ -2,13 +2,17 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    println!("cargo:rustc-link-lib=static=atsa");
+    //println!("cargo:rustc-link-lib=static=sndlib");
+    //println!("cargo:rustc-link-search=native=./sndlib/");
+
     let vars = ["ATSA_CRITICAL_BANDS"];
     let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER", "ATS_SOUND", "ANARGS"];
     let funcs = ["main_anal"];
 
     let mut builder = bindgen::Builder::default()
         .header("wrapper.h")
-        .clang_arg("-I./sndlib")
+        .clang_arg("-I./ats/ats/src/sndlib")
         .rustfmt_bindings(true);
 
     builder = vars.iter().fold(builder, |b, i| b.whitelist_var(i));
@@ -24,9 +28,11 @@ fn main() {
 
     cc::Build::new()
         .include("ats/ats/src/atsa/")
-        .include("sndlib/")
+        .include("ats/ats/src/sndlib/")
         .define("VERSION", "\"1.0.0\"")
-        .file("ats/ats/src/atsa/atsa-nogui.c")
+        .file("ats/ats/src/sndlib/sound.c")
+        .file("ats/ats/src/sndlib/io.c")
+        .file("ats/ats/src/sndlib/headers.c")
         .file("ats/ats/src/atsa/atsa.c")
         .file("ats/ats/src/atsa/critical-bands.c")
         .file("ats/ats/src/atsa/other-utils.c")
