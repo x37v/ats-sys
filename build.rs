@@ -3,7 +3,8 @@ use std::path::PathBuf;
 
 fn main() {
     let vars = ["ATSA_CRITICAL_BANDS"];
-    let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER"];
+    let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER", "ATS_SOUND", "ANARGS"];
+    let funcs = ["main_anal"];
 
     let mut builder = bindgen::Builder::default()
         .header("wrapper.h")
@@ -11,7 +12,7 @@ fn main() {
         .rustfmt_bindings(true);
 
     builder = vars.iter().fold(builder, |b, i| b.whitelist_var(i));
-    //builder = funcs.iter().fold(builder, |b, i| b.whitelist_function(i));
+    builder = funcs.iter().fold(builder, |b, i| b.whitelist_function(i));
     builder = types.iter().fold(builder, |b, i| b.whitelist_type(i));
 
     let bindings = builder.generate().expect("Unable to generate bindings");
@@ -20,4 +21,21 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
+
+    cc::Build::new()
+        .include("ats/ats/src/atsa/")
+        .include("sndlib/")
+        .define("VERSION", "\"1.0.0\"")
+        .file("ats/ats/src/atsa/atsa-nogui.c")
+        .file("ats/ats/src/atsa/atsa.c")
+        .file("ats/ats/src/atsa/critical-bands.c")
+        .file("ats/ats/src/atsa/other-utils.c")
+        .file("ats/ats/src/atsa/peak-detection.c")
+        .file("ats/ats/src/atsa/peak-tracking.c")
+        .file("ats/ats/src/atsa/residual-analysis.c")
+        .file("ats/ats/src/atsa/residual.c")
+        .file("ats/ats/src/atsa/save-load-sound.c")
+        .file("ats/ats/src/atsa/tracker.c")
+        .file("ats/ats/src/atsa/utilities.c")
+        .compile("libatsa.a");
 }
