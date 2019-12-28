@@ -3,8 +3,6 @@ use std::path::PathBuf;
 
 fn main() {
     println!("cargo:rustc-link-lib=static=atsa");
-    //println!("cargo:rustc-link-lib=static=sndlib");
-    //println!("cargo:rustc-link-search=native=./sndlib/");
 
     let vars = ["ATSA_CRITICAL_BANDS"];
     let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER", "ATS_SOUND", "ANARGS"];
