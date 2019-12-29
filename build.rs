@@ -4,7 +4,7 @@ use std::path::PathBuf;
 fn main() {
     println!("cargo:rustc-link-lib=static=atsa");
 
-    let vars = ["ATSA_CRITICAL_BANDS"];
+    let vars = ["ATSA_.*"];
     let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER", "ATS_SOUND", "ANARGS"];
     let funcs = ["main_anal"];
 
