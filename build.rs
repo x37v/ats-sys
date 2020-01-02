@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 fn main() {
     println!("cargo:rustc-link-lib=static=atsa");
-    println!("cargo:rustc-link-lib=fftw3");
+    //    println!("cargo:rustc-link-lib=fftw3");
 
     let vars = ["ATSA_.*"];
     let types = ["ATS_PEAK", "ATS_FRAME", "ATS_HEADER", "ATS_SOUND", "ANARGS"];
@@ -29,7 +29,7 @@ fn main() {
         .include("ats/ats/src/atsa/")
         .include("ats/ats/src/sndlib/")
         .define("VERSION", "\"1.0.0\"")
-        .define("FFTW", "1")
+        //.define("FFTW", "1")
         .file("ats/ats/src/sndlib/sound.c")
         .file("ats/ats/src/sndlib/io.c")
         .file("ats/ats/src/sndlib/headers.c")
